@@ -4,12 +4,21 @@ RealSenseBridge - pyrealsense2 封装层
 线程安全的单例类，管理所有 RealSense 设备的 pipeline 生命周期、
 帧捕获、滤波器、点云导出和设备控制。
 
+基于 sdk_to_mcp 框架设计，包含完整的 SDK 元数据和安全约束。
+
 用法:
     bridge = RealSenseBridge.instance()
     devices = bridge.list_devices()
     bridge.start_pipeline("231122070092")
     frame_info = bridge.capture_frames("231122070092")
     bridge.stop_pipeline("231122070092")
+
+SDK Metadata:
+    Name: librealsense (pyrealsense2)
+    Version: 2.55.1+
+    Source: https://github.com/IntelRealSense/librealsense
+    Docs: https://intelrealsense.github.io/librealsense/doxygen/python_index.html
+    License: Apache-2.0
 """
 
 import os
@@ -18,6 +27,8 @@ import time
 import logging
 import threading
 from typing import Dict, List, Optional, Tuple, Any
+from dataclasses import dataclass, field, asdict
+from datetime import datetime
 
 import numpy as np
 
@@ -32,6 +43,44 @@ except ImportError:
     cv2 = None
 
 from safety_guard import SafetyGuard, SafetyError
+
+# ── SDK Metadata ─────────────────────────────────────────────────────────────
+
+@dataclass
+class SDKMetadata:
+    """
+    SDK 元数据 - 基于 sdk_to_mcp 框架
+    
+    跟踪版本信息、源代码引用和依赖关系，
+    确保 MCP server 与底层 SDK 保持同步。
+    """
+    name: str = "librealsense"
+    version: str = "2.55.1+"
+    protocol: str = "USB3.0/V4L2"
+    source_url: str = "https://github.com/IntelRealSense/librealsense"
+    doc_url: str = "https://intelrealsense.github.io/librealsense/doxygen/python_index.html"
+    license: str = "Apache-2.0"
+    hardware_models: List[str] = field(default_factory=lambda: [
+        "D435", "D435i", "D455", "D415", "D405", "L515"
+    ])
+    dependencies: Dict[str, str] = field(default_factory=lambda: {
+        "pyrealsense2": ">=2.55.1",
+        "numpy": ">=1.20.0",
+        "opencv-python": ">=4.5.0"
+    })
+    checksum: str = ""
+    extracted_date: str = field(default_factory=lambda: datetime.now().isoformat())
+    notes: str = "Intel RealSense SDK 2.0 Python bindings"
+    
+    def to_dict(self) -> Dict[str, Any]:
+        """转换为字典格式"""
+        return asdict(self)
+    
+    @classmethod
+    def get_instance(cls) -> "SDKMetadata":
+        """获取 SDK 元数据实例"""
+        return cls()
+
 
 logger = logging.getLogger("realsense.bridge")
 
