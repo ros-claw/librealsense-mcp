@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "librealsense": {
+      "command": "python3",
+      "args": ["/home/tj10/.openclaw/workspace/librealsense-mcp/mcp_server.py"],
+      "env": {},
+      "description": "Intel RealSense MCP Server (pyrealsense2)"
+    }
+  }
+}
