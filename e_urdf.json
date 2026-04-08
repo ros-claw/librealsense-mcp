@@ -1,0 +1,61 @@
+{
+  "embodiment_id": "librealsense_v1",
+  "embodiment_name": "Intel RealSense (pyrealsense2)",
+  "version": "1.0.0",
+  "meta": {
+    "manufacturer": "Intel",
+    "model": "RealSense D400 Series",
+    "description": "Intel RealSense depth camera via pyrealsense2 (direct SDK, no ROS)",
+    "url": "https://github.com/IntelRealSense/librealsense",
+    "tags": ["camera", "depth", "sdk", "vision", "perception"],
+    "difficulty": "beginner",
+    "release_date": "2024-01",
+    "generated_by": "sdk_to_mcp_v2.0"
+  },
+  "sensors": {
+    "camera_type": "depth_camera",
+    "rgb_resolution": [1920, 1080],
+    "depth_resolution": [1280, 720],
+    "fps": 30,
+    "fov_horizontal": 69,
+    "fov_vertical": 42,
+    "depth_range_m": [0.3, 10.0],
+    "streams": ["color", "depth", "infrared", "points"]
+  },
+  "semantics": {
+    "robot_type": "sensor",
+    "affordances": [
+      "depth_perception",
+      "rgb_imaging",
+      "point_cloud_capture",
+      "3d_scanning",
+      "object_detection",
+      "spatial_mapping"
+    ],
+    "typical_payload_kg": 0.1,
+    "power_consumption_w": 3.0
+  },
+  "sdk_mappings": {
+    "python_sdk": "pyrealsense2",
+    "protocol": "USB3",
+    "filters": ["decimation", "spatial", "temporal", "hole_filling"]
+  },
+  "mcp_server_config": {
+    "tools": [
+      "list_devices",
+      "start_pipeline",
+      "stop_pipeline",
+      "capture_frame",
+      "get_depth_at_point",
+      "export_point_cloud",
+      "set_exposure",
+      "apply_filter"
+    ],
+    "resources": [
+      "realsense://device/info",
+      "realsense://frame/color",
+      "realsense://frame/depth"
+    ],
+    "transport": "stdio"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "robot_id": "librealsense-mcp",
+  "robot_name": "Intel RealSense (pyrealsense2)",
+  "version": "1.0.0",
+  "description": "MCP server for Intel RealSense via pyrealsense2 SDK",
+  "author": "sdk_to_mcp_v2.0",
+  "generated_date": "2026-04-08",
+  "sdk": {
+    "name": "pyrealsense2",
+    "version": "2.51.0+",
+    "protocol": "USB3"
+  },
+  "hardware": {
+    "manufacturer": "Intel",
+    "model": "RealSense D400 Series"
+  },
+  "files": [
+    "mcp_server.py",
+    "bridge.py",
+    "safety_guard.py",
+    "e_urdf.json",
+    "prompts/system.md",
+    "prompts/tools_usage.md",
+    "manifest.json",
+    "requirements.txt",
+    "README.md"
+  ],
+  "mcp_server": {
+    "command": "python",
+    "args": ["mcp_server.py"],
+    "transport": "stdio"
+  }
+}
